@@ -1,0 +1,25 @@
+name: Module Factory CI
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+
+      - run: terraform fmt -check -recursive
+      - run: terraform validate
+      - run: terraform test
+
+  security:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: tfsec .
+      - run: checkov -d .
