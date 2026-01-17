@@ -21,4 +21,11 @@ resource "azurerm_kubernetes_cluster" "this" {
     network_plugin = "azure"
     network_policy = "azure"
   }
+
+  addon_profile {
+    oms_agent {
+      enabled                    = var.enable_oms_agent
+      log_analytics_workspace_id = var.log_analytics_workspace_id
+    }
+  }
 }

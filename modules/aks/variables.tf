@@ -22,3 +22,14 @@ variable "node_count" {
   type    = number
   default = 3
 }
+
+variable "enable_oms_agent" {
+  type        = bool
+  description = "Enable OMS Agent (Log Analytics) for AKS cluster logging"
+  default     = true
+}
+
+variable "log_analytics_workspace_id" {
+  type        = string
+  description = "Resource ID of the Log Analytics workspace to send AKS logs"
+}
