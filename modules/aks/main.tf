@@ -22,8 +22,10 @@ resource "azurerm_kubernetes_cluster" "this" {
     network_policy = "azure"
   }
 
-  oms_agent {
-    enabled                    = var.enable_oms_agent
-    log_analytics_workspace_id = var.log_analytics_workspace_id
+  dynamic "oms_agent" {
+    for_each = var.enable_oms_agent ? [1] : []
+    content {
+      log_analytics_workspace_id = var.log_analytics_workspace_id
+    }
   }
 }
