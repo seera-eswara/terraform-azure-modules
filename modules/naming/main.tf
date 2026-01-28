@@ -38,10 +38,11 @@ locals {
     "westindia"     = "inw"
   }
 
-  # Standard format: <type>-<app>-<env>-<region>-<instance>
+  # Standard format for module-level resources: <type>-<app>-<module>-<env>-<region>-<instance>
   base_name = join("-", compact([
     "%s",  # Resource type placeholder
     local.app_code,
+    var.module != null ? lower(var.module) : null,  # Include module for resource isolation
     local.environment,
     local.region_short,
     local.instance
@@ -53,6 +54,7 @@ locals {
       join("", compact([
         "%s",  # Resource type placeholder
         local.app_code,
+        var.module != null ? lower(var.module) : null,  # Include module
         local.environment,
         local.region_short,
         local.instance
@@ -67,6 +69,10 @@ locals {
 locals {
   # Resource type prefixes following Azure CAF
   names = {
+    # Management & Governance
+    subscription             = join("-", compact([lower(var.app_code), var.module != null ? lower(var.module) : null, local.environment]))
+    management_group         = "mg-${local.app_code}"
+    
     # Compute
     virtual_machine          = format(local.base_name, "vm")
     virtual_machine_scale_set = format(local.base_name, "vmss")
@@ -109,7 +115,6 @@ locals {
     
     # Resource Management
     resource_group           = format(local.base_name, "rg")
-    management_group         = format(local.base_name, "mg")
     
     # App Services
     app_service_plan         = format(local.base_name, "asp")

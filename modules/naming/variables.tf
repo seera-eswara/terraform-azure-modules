@@ -18,6 +18,12 @@ variable "environment" {
   }
 }
 
+variable "module" {
+  description = "Module or technology name (e.g., 'react', 'api', 'ml') - used for subscription naming"
+  type        = string
+  default     = null
+}
+
 variable "location" {
   description = "Azure region for the resources"
   type        = string

@@ -8,6 +8,16 @@ output "tags" {
   value       = local.tags
 }
 
+output "subscription" {
+  description = "Subscription name following pattern: {app}-{module}-{env}"
+  value       = local.names.subscription
+}
+
+output "management_group" {
+  description = "Management group name: mg-{app}"
+  value       = local.names.management_group
+}
+
 output "resource_group" {
   description = "Resource group name"
   value       = local.names.resource_group
